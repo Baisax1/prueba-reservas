@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class OverlapError(Exception):
     pass
 class InvalidDateError(Exception):
@@ -46,11 +48,25 @@ def validar_superposicion(sala_id, fecha, hora_inicio, hora_fin, conn):
             raise OverlapError("La reserva se superpone con otra reserva existente.")
         
 def validar_fecha(fecha):
-    from datetime import datetime
     try:
         datetime.strptime(fecha, "%Y-%m-%d")
     except ValueError:
-        raise InvalidDurationError(f"Formato de fecha inválido, debe ser YYYY-MM-DD.")
+        raise InvalidDateError(f"Formato de fecha inválido, debe ser YYYY-MM-DD.")
+    
+def validar_reserva(solicitud, conn):
+    usuario_id = solicitud["usuario_id"]
+    sala_id = solicitud["sala_id"]
+    fecha = solicitud["fecha"]
+    hora_inicio = solicitud["hora_inicio"]
+    hora_fin = solicitud["hora_fin"]
+
+    validar_existencia(usuario_id, sala_id, conn)
+    validar_fecha(fecha)
+    validar_duracion(hora_inicio, hora_fin)
+    validar_superposicion(sala_id, fecha, hora_inicio, hora_fin, conn)
+    
+    
+    
     
         
         
