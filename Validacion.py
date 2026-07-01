@@ -23,7 +23,7 @@ def validar_duracion(hora_inicio, hora_fin):
         raise InvalidDurationError("La duración de la reserva no puede ser menor a 30 minutos.")
     return duracion
 
-def vaalidar_existencia(usuario_id,sala_id,conn):
+def validar_existencia(usuario_id,sala_id,conn):
     
     usuario=conn.execute(
         "SELECT * FROM usuarios WHERE id = ?", (usuario_id,)
@@ -31,3 +31,21 @@ def vaalidar_existencia(usuario_id,sala_id,conn):
     if usuario is None:
         raise NotFoundError(f"Usuario con ID {usuario_id} no encontrado.")
     
+    sala=conn.execute(
+        "SELECT * FROM salas WHERE id = ?", (sala_id,)
+    ).fetchone()
+    if sala is None:
+        raise NotFoundError(f"Sala con ID {sala_id} no encontrada.")
+
+def validar_superposicion(sala_id, fecha, hora_inicio, hora_fin, conn):
+    reservas_existentes = conn.execute(
+        "SELECT hora_inicio, hora_fin FROM reservas WHERE sala_id = ? AND fecha = ? AND status = 'Confirmada'",
+        (sala_id, fecha)
+    ).fetchall()
+
+    for hora_inicio_existente, hora_fin_existente in reservas_existentes:
+        if not (hora_fin <= hora_inicio_existente or hora_inicio >= hora_fin_existente):
+            raise OverlapError("La reserva se superpone con otra reserva existente.")
+        
+        
+        
