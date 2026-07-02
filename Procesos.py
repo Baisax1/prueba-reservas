@@ -33,13 +33,24 @@ def procesar_reserva(solicitud, conn):
         guardar_reserva(solicitud, "Confirmada", conn)
         logging.info(f"Reserva aprobada: {solicitud}")
         return "Reserva aprobada"
+    
+    # Para Resolver el Error del Usuario o Sala cuyo Id no existe y no se rompa la tabla
+    #agregue esta excepcion para capturar el error de NotFoundError y registrar un mensaje de advertencia en
+    #el log, sin guardar la reserva en la base de datos.
+    #Solo habria que cambiar el codigo de abajo por el siguiente
+    #except NotFoundError as e:
+    #    logging.warning(f"Reserva rechazada: {solicitud} - Motivo: {str(e)}")
+    #except (OverlapError, InvalidDurationError, InvalidDateError) as e:
+    #   guardar_reserva(solicitud, "Rechazada", conn)
+    #   logging.warning(f"Reserva rechazada: {solicitud} - Motivo: {str(e)}")
+    
     except (OverlapError, InvalidDurationError, InvalidDateError, NotFoundError) as e:
         guardar_reserva(solicitud, "Rechazada", conn)
         logging.warning(f"Reserva rechazada: {solicitud} - Motivo: {str(e)}")
         
         
         
-def procesar_reservas(solicitudes, conn):
+def procesar_reservas(solicitudes, conn):#
     for solicitud in solicitudes:
         procesar_reserva(solicitud, conn)
         
