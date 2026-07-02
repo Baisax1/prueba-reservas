@@ -13,17 +13,17 @@ Sistema en Python que se encarga de validar y procesar solicitudes de reservas d
     git clone https://github.com/Baisax1/prueba-reservas.git
     cd prueba-reservas
 
-2. (Opcional) Crear un entorno virtual
+3. (Opcional) Crear un entorno virtual
     py -m venv venv
 
-3. Ejecuta el Programa
+4. Ejecuta el Programa
     py ejecutar_reservas.py
 
-4. Esto generara de manera automatica un db con sqlite3 llamada "reservas.db" con las tablas planteadas en DB.py y posteriormente usara la seed en este mismo archivo para añadir 3 usuarios, 3 salas y 2 reservas.
+5. Esto generara de manera automatica un db con sqlite3 llamada "reservas.db" con las tablas planteadas en DB.py y posteriormente usara la seed en este mismo archivo para añadir 3 usuarios, 3 salas y 2 reservas.
 
-5. Se evaluara el lote de reservas planteado en el archivo ejecutar_reservas y uno por uno se evaluaran, para posteriormente ser Confirmadas o Rechazadas.
+6. Se evaluara el lote de reservas planteado en el archivo ejecutar_reservas y uno por uno se evaluaran, para posteriormente ser Confirmadas o Rechazadas.
 
-6. Todas las reservas confirmadas o rechazadas seran guardados en la base de datos junto con un registro en el archivo de reservas.log para su posterior analisis en caso de error.
+7. Todas las reservas confirmadas o rechazadas seran guardados en la base de datos junto con un registro en el archivo de reservas.log para su posterior analisis en caso de error.
 
 ## Reglas Implementadas 
 
